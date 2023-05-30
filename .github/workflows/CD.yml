@@ -1,4 +1,4 @@
-on:  
+on:
   push:
     branches:
       - main
@@ -7,19 +7,20 @@ on:
 
 jobs:
   xcframework:
-    runs-on: macos-latest
+    runs-on: macOS-12
     steps:
       - name: Checkout
         uses: actions/checkout@v3
-      - name: Setup CMake
-        run: brew install cmake
+
       - name: Build XCFramework
         run: |
           python3 platforms/apple/build_xcframework.py -o build --framework_name OpenCV --dynamic
           cd build
           ls -al
+
       - name: Zip XCFramework
         run: cd build && zip -r OpenCV.xcframework.zip OpenCV.xcframework
+
       - name: Upload XCFramework
         uses: actions/upload-artifact@v3
         with:
